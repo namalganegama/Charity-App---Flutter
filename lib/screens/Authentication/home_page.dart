@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project/screens/Authentication/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/screens/Donation/dashboard.dart';
-import 'package:project/screens/Beneficary/dashboard.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -67,7 +66,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const BeneficaryHomePage()));
+                        builder: (context) => const DonationHomePage()));
               },
               child: const Text('Beneficary'),
               color: Colors.blue,
@@ -99,7 +98,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const BeneficaryHomePage()));
+                        builder: (context) => const DonationHomePage()));
               },
               child: const Text('Doner'),
               color: Colors.blue,
@@ -115,7 +114,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const BeneficaryHomePage()));
+                        builder: (context) => const DonationHomePage()));
               },
               child: const Text('Volunteers'),
               color: Colors.blue,

@@ -11,36 +11,50 @@ class FetchData extends StatefulWidget {
 }
 
 class _FetchDataState extends State<FetchData> {
-  Query dbRef = FirebaseDatabase.instance.ref().child('Students');
+  Query dbRef = FirebaseDatabase.instance.ref().child('Donations');
   DatabaseReference reference =
-      FirebaseDatabase.instance.ref().child('Students');
+      FirebaseDatabase.instance.ref().child('Donations');
 
-  Widget listItem({required Map student}) {
+  Widget listItem({required Map donation}) {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
-      height: 120,
+      height: 180,
       color: Colors.amberAccent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            student['name'],
+            donation['Item_Name'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            student['age'],
+            donation['Item_Type'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            student['salary'],
+            donation['Date'],
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            donation['Amount'],
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            donation['Description'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           Row(
@@ -53,7 +67,7 @@ class _FetchDataState extends State<FetchData> {
                       context,
                       MaterialPageRoute(
                           builder: (_) =>
-                              UpdateRecord(studentKey: student['key'])));
+                              UpdateRecord(donationKey: donation['key'])));
                 },
                 child: Row(
                   children: [
@@ -69,7 +83,7 @@ class _FetchDataState extends State<FetchData> {
               ),
               GestureDetector(
                 onTap: () {
-                  reference.child(student['key']).remove();
+                  reference.child(donation['key']).remove();
                 },
                 child: Row(
                   children: [
@@ -99,10 +113,10 @@ class _FetchDataState extends State<FetchData> {
             query: dbRef,
             itemBuilder: (BuildContext context, DataSnapshot snapshot,
                 Animation<double> animation, int index) {
-              Map student = snapshot.value as Map;
-              student['key'] = snapshot.key;
+              Map donation = snapshot.value as Map;
+              donation['key'] = snapshot.key;
 
-              return listItem(student: student);
+              return listItem(donation: donation);
             },
           ),
         ));

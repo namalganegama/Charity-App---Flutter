@@ -2,36 +2,40 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class UpdateRecord extends StatefulWidget {
-  const UpdateRecord({Key? key, required this.studentKey}) : super(key: key);
+  const UpdateRecord({Key? key, required this.donationKey}) : super(key: key);
 
-  final String studentKey;
+  final String donationKey;
 
   @override
   State<UpdateRecord> createState() => _UpdateRecordState();
 }
 
 class _UpdateRecordState extends State<UpdateRecord> {
-  final userNameController = TextEditingController();
-  final userAgeController = TextEditingController();
-  final userSalaryController = TextEditingController();
+  final itemNameController = TextEditingController();
+  final itemTypeController = TextEditingController();
+  final dateController = TextEditingController();
+  final amountController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   late DatabaseReference dbRef;
 
   @override
   void initState() {
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('Students');
+    dbRef = FirebaseDatabase.instance.ref().child('Donations');
     getStudentData();
   }
 
   void getStudentData() async {
-    DataSnapshot snapshot = await dbRef.child(widget.studentKey).get();
+    DataSnapshot snapshot = await dbRef.child(widget.donationKey).get();
 
-    Map student = snapshot.value as Map;
+    Map donation = snapshot.value as Map;
 
-    userNameController.text = student['name'];
-    userAgeController.text = student['age'];
-    userSalaryController.text = student['salary'];
+    itemNameController.text = donation['Item_Name'];
+    itemTypeController.text = donation['Item_Type'];
+    dateController.text = donation['Date'];
+    amountController.text = donation['Amount'];
+    descriptionController.text = donation['Description'];
   }
 
   @override
@@ -49,7 +53,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
                 height: 50,
               ),
               const Text(
-                'Updating data in Firebase Realtime Database',
+                'Update donation',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -60,7 +64,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
                 height: 30,
               ),
               TextField(
-                controller: userNameController,
+                controller: itemNameController,
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -72,24 +76,48 @@ class _UpdateRecordState extends State<UpdateRecord> {
                 height: 30,
               ),
               TextField(
-                controller: userAgeController,
+                controller: itemTypeController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Age',
-                  hintText: 'Enter Your Age',
+                  labelText: 'Type',
+                  hintText: 'Enter type',
                 ),
               ),
               const SizedBox(
                 height: 30,
               ),
               TextField(
-                controller: userSalaryController,
+                controller: dateController,
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Salary',
-                  hintText: 'Enter Your Salary',
+                  labelText: 'Date',
+                  hintText: 'Enter date',
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              TextField(
+                controller: amountController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Amount',
+                  hintText: 'Enter amount',
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              TextField(
+                controller: descriptionController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Description',
+                  hintText: 'Enter description',
                 ),
               ),
               const SizedBox(
@@ -97,15 +125,17 @@ class _UpdateRecordState extends State<UpdateRecord> {
               ),
               MaterialButton(
                 onPressed: () {
-                  Map<String, String> students = {
-                    'name': userNameController.text,
-                    'age': userAgeController.text,
-                    'salary': userSalaryController.text
+                  Map<String, String> donations = {
+                    'Item_Name': itemNameController.text,
+                    'Item_Type': itemTypeController.text,
+                    'Date': dateController.text,
+                    'Amount': amountController.text,
+                    'Description': descriptionController.text
                   };
 
                   dbRef
-                      .child(widget.studentKey)
-                      .update(students)
+                      .child(widget.donationKey)
+                      .update(donations)
                       .then((value) => {Navigator.pop(context)});
                 },
                 child: const Text('Update Data'),
